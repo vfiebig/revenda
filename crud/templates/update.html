@@ -1,0 +1,34 @@
+<!-- update.html -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <link href="{{STATIC_URL}}revenda.css" rel="stylesheet" type="text/css">
+  </head> 
+  <body>
+    <h1>Revenda - Update</h1>
+    <form method="post" action="/update/"  enctype="multipart/form-data">
+      {% csrf_token %}
+      <ul>
+        <li><input type="hidden" name="id" value="{{veiculo.id}}"></li>
+        <li>
+          <input type="text" name="ano" placeholder="Ano do Veiculo" 
+             value="{{veiculo.ano}}" required>
+        </li>
+        <li>
+          <input type="text" name="fabricante"  placeholder="Fabricante" 
+             value="{{veiculo.fabricante}}" required>
+        </li>
+        <li>
+          <input type="text" name="modelo"  placeholder="Modelo" 
+             value="{{veiculo.modelo}}" required>
+        </li>
+        <li>
+          <input type="file" name="foto">
+        </li>
+        <li>
+          <input type="submit" value="Salvar alteracoes">
+        </li>
+      </ul>
+    </form>
+  </body>
+</html>

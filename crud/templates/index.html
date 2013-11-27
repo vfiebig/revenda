@@ -1,0 +1,44 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <link href="{{STATIC_URL}}revenda.css" rel="stylesheet" type="text/css">
+  </head> 
+  <body>
+    <h1>Revenda</h1>
+    <form method="post" action="/" enctype="multipart/form-data">
+      {% csrf_token %}
+      <ul>
+        <li>
+          <input type="text" name="ano" placeholder="Ano do Veiculo" required>
+          <input type="text" name="fabricante" placeholder="Fabricante" required>
+          <input type="text" name="modelo" placeholder="Modelo" required>
+        </li>
+        <li>
+          <input type="file" name="foto">
+        </li>
+        <li>
+          <input type="submit" value="Adicionar Veiculo">
+        </li>
+      </ul>
+    </form>
+<!-- Cycle through entries -->
+    {% for veiculo in Veiculos %}
+      <img src="/crud/{{veiculo.gridfile_attr}}">
+      <h2> {{ veiculo.fabricante }} {{ veiculo.modelo }} ({{ veiculo.ano }})</h2>
+      <form method="get" action="/update">
+        <input type="hidden" name="id" value="{{ veiculo.id }}">
+<!--
+        <input type="hidden" name="title" value="{{ post.title }}">
+        <input type="hidden" name="last_update" value="{{ post.last_update }}">
+        <input type="hidden" name="content" value="{{ post.content }}">
+-->
+        <input type="submit" name="" value="atualizar">
+      </form>
+      <form method="get" action="/delete">
+        <input type="hidden" name="id" value="{{veiculo.id}}">
+        <input type="submit" value="deletar">
+      </form>
+    {% endfor %}
+  </body>
+</html>
