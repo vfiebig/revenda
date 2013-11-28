@@ -8,6 +8,7 @@
     <h1>Revenda</h1>
     <form method="post" action="/" enctype="multipart/form-data">
       {% csrf_token %}
+      <a href="/logout/">logout</a>
       <ul>
         <li>
           <input type="text" name="ano" placeholder="Ano do Veiculo" required>

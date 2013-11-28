@@ -10,6 +10,8 @@ urlpatterns = patterns('',
     url(r'^$', 'crud.views.index'),
     url(r'^update/', 'crud.views.update'),
     url(r'^delete/', 'crud.views.delete'),
+    url(r'^login/', 'crud.views.vlogin'),
+    url(r'^logout/', 'crud.views.vlogout'),
     
 
     url(r'^admin/', include(admin.site.urls)),

@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.shortcuts import render_to_response
 from django.template import RequestContext
+from django.contrib.auth import authenticate, login, logout
 from models import Veiculo
 from mongoengine import *
 
@@ -37,6 +38,9 @@ def serve_file(request, file_id):
 
 
 def index(request):
+    if not request.user.is_authenticated():
+        return render_to_response('vlogin.html', {}, context_instance=RequestContext(request))
+
     if request.method == 'POST':
         veiculo = Veiculo()
         veiculo.ano = request.POST['ano']
@@ -51,6 +55,9 @@ def index(request):
     return render_to_response('index.html', {'Veiculos': veiculos}, context_instance=RequestContext(request))
 
 def update(request):
+    if not request.user.is_authenticated():
+        return render_to_response('vlogin.html', {}, context_instance=RequestContext(request))
+
     id = eval("request." + request.method + "['id']")
     veiculo = Veiculo.objects(id=id)[0]
 
@@ -73,6 +80,9 @@ def update(request):
 
 
 def delete(request):
+    if not request.user.is_authenticated():
+        return render_to_response('vlogin.html', {}, context_instance=RequestContext(request))
+
     id = eval("request." + request.method + "['id']")
 
     if request.method == 'POST':
@@ -85,3 +95,25 @@ def delete(request):
         params = {'id':id}
 
     return render_to_response(template, params, context_instance=RequestContext(request))
+
+
+def vlogin(request):
+    username = request.POST['username']
+    password = request.POST['password']
+    user = authenticate(username=username, password=password)
+    if user is not None:
+        if user.is_active:
+            login(request, user)
+        else:
+            #mensagem de falha
+            return render_to_response('vlogin.html', {}, context_instance=RequestContext(request))
+    else:
+        #usuario invalido
+        return render_to_response('vlogin.html', {}, context_instance=RequestContext(request))
+    request.method = 'GET'
+    return index(request) 
+
+def vlogout(request):
+    logout(request)
+    request.method = 'GET'
+    return index(request)
