@@ -1,4 +1,4 @@
-revenda
+Revenda
 =======
 
-Revenda de veículos
+Revenda de veículos com django/mongodb
